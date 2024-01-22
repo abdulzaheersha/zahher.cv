@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Signup Form</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family:Montserrat, sans-serif;
+            background-color: #262626;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-weight: 500;
+        }
+
+        .forms-container {
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px; 
+            margin: 10px;
+            box-shadow: 0 0 10px #fff;
+            height: 300px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 3px solid #ccc;
+            border-radius: 19px;
+            box-sizing: border-box;
+            ;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: #ff0000;
+            margin-top: 8px;
+        }
+
+        .toggle-link {
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+            margin-top: 10px;
+            
+        }
+
+h1{
+    color: #fff;
+}
+    </style>
+</head>
+<body>
+
+    <div class="forms-container">
+        <center><h1 >Welcome Back!!</h1></center>
+        <form id="loginForm" onsubmit="validateForm(event)">
+            <label for="loginEmail">Email:</label>
+            <input type="email" id="loginEmail" name="loginEmail" required>
+
+            <label for="loginPassword">Password:</label>
+            <input type="password" id="loginPassword" name="loginPassword" required>
+
+            <button type="submit">Login</button>
+            <p class="error-message" id="loginErrorMessage"></p>
+
+            <p class="toggle-link" onclick="toggleForms()">New user? Sign Up</p>
+        </form>
+
+        <form id="signupForm" onsubmit="validateForm(event)" style="display: none;">
+            <label for="signupUsername">Email:</label>
+            <input type="text" id="signupUsername" name="signupUsername" required>
+
+            <label for="signupPassword">Password:</label>
+            <input type="password" id="signupPassword" name="signupPassword" required>
+
+            <label for="signupPassword">Confirm Password:</label>
+            <input type="password" id="signupPassword" name="signupPassword" required>
+
+            <button type="submit">Sign Up</button>
+            <p class="error-message" id="signupErrorMessage"></p>
+
+            <p class="toggle-link" onclick="toggleForms()">Already have an account? Login</p>
+        </form>
+        
+    </div>
+
+    <script>
+        function validateForm(event) {
+            event.preventDefault();
+            const form = event.target;
+
+            if (form.id === 'loginForm') {
+                const email = form.querySelector('input[name="loginEmail"]').value;
+                const password = form.querySelector('input[name="loginPassword"]').value;
+                const errorMessage = form.querySelector('.error-message');
+
+                // Simple regex validation for email address
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    errorMessage.innerText = 'Invalid email address.';
+                    return;
+                }
+
+                // Additional login validations can be added here
+            } else if (form.id === 'signupForm') {
+                const username = form.querySelector('input[name="signupUsername"]').value;
+                const password = form.querySelector('input[name="signupPassword"]').value;
+                const errorMessage = form.querySelector('.error-message');
+
+                // Simple regex validation for username (alphanumeric only)
+                const usernameRegex = /^[a-zA-Z0-9]+$/;
+                if (!usernameRegex.test(username)) {
+                    errorMessage.innerText = 'Invalid username. Alphanumeric characters only.';
+                    return;
+                }
+
+                // Password validation
+                const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+                if (!passwordRegex.test(password)) {
+                    errorMessage.innerText = 'Password must be at least 8 characters long and include at least one lowercase letter, one uppercase letter, one digit, and one special character.';
+                    return;
+                }
+            }
+
+            // If validation passes, you can submit the form or perform other actions.
+            errorMessage.innerText = '';
+            // Perform actions like sending data to the server, etc.
+        }
+
+        function toggleForms() {
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+
+            if (loginForm.style.display === 'none') {
+                loginForm.style.display = 'block';
+                signupForm.style.display = 'none';
+            } else {
+                loginForm.style.display = 'none';
+                signupForm.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
